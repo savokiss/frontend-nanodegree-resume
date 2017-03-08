@@ -13,6 +13,12 @@ var work = {
     location: 'Beijing',
     dates: '2014.12-2017.4',
     description: 'Handle Front end'
+  }, {
+    employer: 'Medees',
+    title: 'PHP Developer',
+    location: 'Luoyang',
+    dates: '2013.12-2014.11',
+    description: 'Working Hard'
   }]
 }
 var projects = {
@@ -62,11 +68,20 @@ for(var i in bio.contacts) {
 }
 append($header, HTMLbioPic, bio.biopic)
 append($header, HTMLwelcomeMsg, bio.welcomeMessage)
-append($header, HTMLskillsStart, '')
+append($header, HTMLskillsStart)
 bio.skills.forEach(function(v){
   append($header, HTMLskills, v)
 })
-append($workExperience, HTMLworkStart)
+
+work.jobs.forEach(function(v){
+  var $workEntry = $(HTMLworkStart).clone()
+  append($workEntry, HTMLworkEmployer, v.employer)
+  append($workEntry, HTMLworkTitle, v.title)
+  append($workEntry, HTMLworkDates, v.dates)
+  append($workEntry, HTMLworkLocation, v.location)
+  append($workEntry, HTMLworkDescription, v.description)
+  $workExperience.append($workEntry)
+})
 
 function prepend (container, template, variable, field) {
   var data = field ? field : 'data'
