@@ -6,8 +6,36 @@ var $header = $('#header')
 var $topContacts = $('#topContacts')
 var $workExperience = $('#workExperience')
 var $projects = $('#projects')
+var $education = $('#education')
 var $mapDiv = $('#mapDiv')
 
+var bio = {
+  name: 'savo',
+  role: 'Web Developer',
+  welcomeMessage: 'Hello savo',
+  biopic: 'images/fry.jpg',
+  contacts: {
+    mobile: 13934223456,
+    email: 'jaynaruto@qq.com',
+    github: 'savokiss',
+    twitter: '@savokiss',
+    location: 'Beijing'
+  },
+  skills: ['AngularJS', 'VueJS', 'NodeJS'],
+  display: function () {
+    prepend($header, HTMLheaderRole, bio.role)
+    prepend($header, HTMLheaderName, bio.name)
+    for(var i in bio.contacts) {
+      appendContact(i, bio.contacts[i])
+    }
+    append($header, HTMLbioPic, bio.biopic)
+    append($header, HTMLwelcomeMsg, bio.welcomeMessage)
+    append($header, HTMLskillsStart)
+    bio.skills.forEach(function(v){
+      append($header, HTMLskills, v)
+    })
+  }
+}
 var work = {
   jobs: [{
     employer: 'Radida',
@@ -21,7 +49,17 @@ var work = {
     location: 'Luoyang',
     dates: '2013.12-2014.11',
     description: 'Working Hard'
-  }]
+  }],
+  display: function () {
+    work.jobs.forEach(function(v){
+      var $workEntry = $(HTMLworkStart)
+      append($workEntry, replace(HTMLworkEmployer, v.employer) + replace(HTMLworkTitle, v.title))
+      append($workEntry, HTMLworkDates, v.dates)
+      append($workEntry, HTMLworkLocation, v.location)
+      append($workEntry, HTMLworkDescription, v.description)
+      $workExperience.append($workEntry)
+    })
+  }
 }
 var projects = {
   projects: [{
@@ -46,20 +84,6 @@ var projects = {
     })
   }
 }
-var bio = {
-  name: 'savo',
-  role: 'Web Developer',
-  welcomeMessage: 'Hello savo',
-  biopic: 'images/fry.jpg',
-  contacts: {
-    mobile: 13934223456,
-    email: 'jaynaruto@qq.com',
-    github: 'savokiss',
-    twitter: '@savokiss',
-    location: 'Beijing'
-  },
-  skills: ['AngularJS', 'VueJS', 'NodeJS']
-}
 
 var education = {
   schools: [{
@@ -67,44 +91,41 @@ var education = {
     location: 'Henan, Zhengzhou',
     degree: 'Master',
     dates: '2010.9-2014.7',
-    url: 'http://zzuli.edu.cn',
-    majors: ['Network', 'Computer Science'],
-    onlineCourses: [{
-      title: 'JavaScript Basic',
-      school: 'Udacity',
-      dates: '2017.2-2017.6',
-      url: 'http://udacity.com'
-    }]
-  }]
+    majors: ['Network', 'Computer Science']
+  }],
+  onlineCourses: [{
+    title: 'JavaScript Basic',
+    school: 'Udacity',
+    dates: '2017.2-2017.6',
+    url: 'http://udacity.com'
+  }],
+  display: function () {
+    education.schools.forEach(function(v){
+      var $educationEntry = $(HTMLschoolStart)
+      append($educationEntry, replace(HTMLschoolName, v.name) + replace(HTMLschoolDegree, v.degree))
+      append($educationEntry, HTMLschoolDates, v.dates)
+      append($educationEntry, HTMLschoolLocation, v.location)
+      $education.append($educationEntry)
+    })
+
+    append($education, HTMLonlineClasses)
+    education.onlineCourses.forEach(function(v){
+      var $educationEntry = $(HTMLschoolStart)
+      append($educationEntry, replace(HTMLonlineTitle, v.title) + replace(HTMLonlineSchool, v.school))
+      append($educationEntry, HTMLonlineDates, v.dates)
+      append($educationEntry, HTMLonlineURL, v.url)
+      $education.append($educationEntry)
+    })
+  }
 }
 
-prepend($header, HTMLheaderRole, bio.role)
-prepend($header, HTMLheaderName, bio.name)
-for(var i in bio.contacts) {
-  appendContact(i, bio.contacts[i])
-}
-append($header, HTMLbioPic, bio.biopic)
-append($header, HTMLwelcomeMsg, bio.welcomeMessage)
-append($header, HTMLskillsStart)
-bio.skills.forEach(function(v){
-  append($header, HTMLskills, v)
-})
-
-// display projects
+bio.display()
+work.display()
 projects.display()
+education.display()
 
 // show map
 // $mapDiv.append(googleMap)
-
-work.jobs.forEach(function(v){
-  var $workEntry = $(HTMLworkStart).clone()
-  
-  append($workEntry, replace(HTMLworkEmployer, v.employer) + replace(HTMLworkTitle, v.title))
-  append($workEntry, HTMLworkDates, v.dates)
-  append($workEntry, HTMLworkLocation, v.location)
-  append($workEntry, HTMLworkDescription, v.description)
-  $workExperience.append($workEntry)
-})
 
 function replace(template, variable) {
   return template.replace('%data%', variable)
