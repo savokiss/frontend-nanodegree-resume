@@ -5,6 +5,8 @@ This is empty on purpose! Your code to build the resume will go here.
 var $header = $('#header')
 var $topContacts = $('#topContacts')
 var $workExperience = $('#workExperience')
+var $projects = $('#projects')
+var $mapDiv = $('#mapDiv')
 
 var work = {
   jobs: [{
@@ -23,11 +25,26 @@ var work = {
 }
 var projects = {
   projects: [{
-    title: 'Leader',
-    dates: '2015.1-2015-6',
-    description: 'Working hard',
-    images: 'images/fry.jpg'
-  }]
+    title: 'Software',
+    dates: '2015.1-2015.6',
+    description: 'Working hard & this is a good story but not very sad and terrific',
+    image: 'images/fry.jpg'
+  }, {
+    title: 'Website',
+    dates: '2015.7-2015.12',
+    description: 'Official Website',
+    image: 'images/fry.jpg'
+  }],
+  display: function () {
+    this.projects.forEach(function(val){
+      var entry = $(HTMLprojectStart)
+      append(entry, HTMLprojectTitle, val.title)
+      append(entry, HTMLprojectDates, val.dates)
+      append(entry, HTMLprojectDescription, val.description)
+      append(entry, HTMLprojectImage, val.image)
+      $projects.append(entry)
+    })
+  }
 }
 var bio = {
   name: 'savo',
@@ -73,6 +90,12 @@ bio.skills.forEach(function(v){
   append($header, HTMLskills, v)
 })
 
+// display projects
+projects.display()
+
+// show map
+// $mapDiv.append(googleMap)
+
 work.jobs.forEach(function(v){
   var $workEntry = $(HTMLworkStart).clone()
   
@@ -99,3 +122,7 @@ function append (container, template, variable, field) {
 function appendContact(name, value){
   $topContacts.append(HTMLcontactGeneric.replace('%contact%', name).replace('%data%', value))
 }
+
+$(document).click(function(loc){
+  logClicks(loc.pageX, loc.pageY)
+})
