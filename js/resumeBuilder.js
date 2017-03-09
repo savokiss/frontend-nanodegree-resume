@@ -75,14 +75,17 @@ bio.skills.forEach(function(v){
 
 work.jobs.forEach(function(v){
   var $workEntry = $(HTMLworkStart).clone()
-  append($workEntry, HTMLworkEmployer, v.employer)
-  append($workEntry, HTMLworkTitle, v.title)
+  
+  append($workEntry, replace(HTMLworkEmployer, v.employer) + replace(HTMLworkTitle, v.title))
   append($workEntry, HTMLworkDates, v.dates)
   append($workEntry, HTMLworkLocation, v.location)
   append($workEntry, HTMLworkDescription, v.description)
   $workExperience.append($workEntry)
 })
 
+function replace(template, variable) {
+  return template.replace('%data%', variable)
+}
 function prepend (container, template, variable, field) {
   var data = field ? field : 'data'
   container.prepend(template.replace('%'+ data +'%', variable))
